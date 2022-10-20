@@ -22,8 +22,6 @@ def detect_borders(image):
                     x = pos%width
                     y = int(pos/width)
 
-                    print("Case 2", x, y)
-                    
                     pos += width
 
                 borders[int(num/3)][3] = y
@@ -34,8 +32,6 @@ def detect_borders(image):
                     x = pos%width
                     y = int(pos/width)
  
-                    print("Case 1", x, y)
-                    
                     pos += 1
 
             
@@ -50,8 +46,6 @@ def detect_borders(image):
                     borders[int(num/3)][0] = x
                     borders[int(num/3)][2] = y
 
-                print("Case 0", x, y)
-
         pos += 1
 
     return borders
@@ -59,7 +53,7 @@ def detect_borders(image):
 
 
 def convert_file(filename):
-    print("Working with file: " filename)
+    print("Working with file: " + filename)
     images = convert_from_path(filename)
 
     path_img = "images/" + filename
