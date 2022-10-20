@@ -16,35 +16,34 @@ def detect_borders(image):
         x = pos%width
         y = int(pos/width)
         
-        match num:
-            case 2 | 5:
-                while image.getpixel((x, y)) == (0, 0, 0):
-                    x = pos%width
-                    y = int(pos/width)
+        if num == 2 or num == 5:
+            while image.getpixel((x, y)) == (0, 0, 0):
+                x = pos%width
+                y = int(pos/width)
 
-                    pos += width
+                pos += width
 
-                borders[int(num/3)][3] = y
+            borders[int(num/3)][3] = y
+            num += 1
+
+        if num == 1 or num == 4:
+            while image.getpixel((x, y)) == (0, 0, 0):
+                x = pos%width
+                y = int(pos/width)
+
+                pos += 1
+
+        
+            borders[int(num/3)][1] = x
+
+            pos -= 3
+            num += 1
+
+        if num == 0 or num == 3:
+            if image.getpixel((x, y)) == (0, 0, 0):
                 num += 1
-
-            case 1 | 4:
-                while image.getpixel((x, y)) == (0, 0, 0):
-                    x = pos%width
-                    y = int(pos/width)
- 
-                    pos += 1
-
-            
-                borders[int(num/3)][1] = x
-
-                pos -= 3
-                num += 1
-
-            case 0 | 3:
-                if image.getpixel((x, y)) == (0, 0, 0):
-                    num += 1
-                    borders[int(num/3)][0] = x
-                    borders[int(num/3)][2] = y
+                borders[int(num/3)][0] = x
+                borders[int(num/3)][2] = y
 
         pos += 1
 
