@@ -1,2 +1,9 @@
 # pdf-cutter
-pdf file cutter for slides where 2 pages are in one of the file
+
+Pdf file cutter for slides where 2 pages are in one of the file
+
+## Requirements
+
+- `pdf2image`
+- `img2pdf`
+
