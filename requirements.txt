@@ -1,0 +1,2 @@
+pdf2image==1.16.0
+img2pdf==0.4.4

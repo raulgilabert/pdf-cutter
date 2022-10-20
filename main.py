@@ -59,6 +59,7 @@ def detect_borders(image):
 
 
 def convert_file(filename):
+    print("Working with file: " filename)
     images = convert_from_path(filename)
 
     path_img = "images/" + filename
@@ -68,22 +69,12 @@ def convert_file(filename):
 
     os.mkdir(path_img)
 
-    path_result = "result/" + filename
-
-    if os.path.exists(path_result):
-        os.system("rm -rf " + path_result)
-
-    os.mkdir(path_result)
-
+    print("Getting borders of slides...")
     borders = detect_borders(images[0])
-   
-    print(borders)
-
-    print((borders[0][1] - borders[0][0])*(borders[0][3] - borders[0][2]),
-          (borders[1][1] - borders[1][0])*(borders[1][3] - borders[1][2]))
 
     image_files = []
 
+    print("Cropping pages...")
     for i in range(len(images)):
         image_up = images[i]
         image_down = image_up.copy()
@@ -98,19 +89,26 @@ def convert_file(filename):
         image_down.crop((borders[1][0], borders[1][2], borders[1][1],
                        borders[1][3])).save(image_down_name, "JPEG")
 
-    with open(path_result + "/" + filename, "wb") as f:
+    print("Saving pdf...")
+    with open("result/" + filename, "wb") as f:
         f.write(img2pdf.convert(image_files))
         f.close()
 
+    print("Ended with file: " + filename)
+    print("------------------------")
 
-if os.path.exists("images"):
-    os.system("rm -rf images")
 
-if not os.path.exists("result"):
-    os.mkdir("result")
+if __name__ == "__main__":
+    if os.path.exists("images"):
+        os.system("rm -rf images")
 
-os.mkdir("images")
+    if not os.path.exists("result"):
+        os.mkdir("result")
 
-for file in sys.argv[1::]:
-    convert_file(file)
+    os.mkdir("images")
+
+    for file in sys.argv[1::]:
+        convert_file(file)
+
+    os.system("rm -rf images/")
 
