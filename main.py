@@ -45,6 +45,9 @@ def detect_borders(image):
                 borders[int(num/3)][0] = x
                 borders[int(num/3)][2] = y
 
+            if x*2 > width:
+                pos += int(width/2)
+
         pos += 1
 
     return borders
@@ -65,11 +68,16 @@ def convert_file(filename):
     print("Getting borders of slides...")
     borders = detect_borders(images[0])
 
+    print(borders)
+
     image_files = []
 
     print("Cropping pages...")
     for i in range(len(images)):
+        images[i].save(path_img + "/img_first_" + str(i) + ".jpg", "JPEG")
+
         image_up = images[i]
+
         image_down = image_up.copy()
 
         image_up_name = path_img + "/img_" + str(i*2) + ".jpg"
