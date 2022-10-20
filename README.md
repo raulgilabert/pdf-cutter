@@ -27,5 +27,5 @@ execution.
 - `pdf2image`
 - `img2pdf`
 
-You can install them using the command `pip install pdf2image img2pdf`
+You can install them using the command `pip install -r requirements.txt`
 
