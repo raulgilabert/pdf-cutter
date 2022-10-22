@@ -58,6 +58,9 @@ def convert_file(filename):
     print("Working with file: " + filename)
     images = convert_from_path(filename)
 
+    filename_path_data = filename.split("/")
+    filename = filename_path_data[len(filename_path_data) - 1]
+
     path_img = "images/" + filename
 
     if os.path.exists(path_img):
