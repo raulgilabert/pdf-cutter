@@ -22,7 +22,7 @@ original file. All the images used in the conversion are stored at the folder
 execution.
 
 ## Quality option
-The '-q / --quality' argument allows you to increase the resolution of the
+The `-q / --quality` argument allows you to increase the resolution of the
 output, by default is 1. Its range goes from 1 to 3.
 ### quality  = 1 | original_size * 1.2
 ![quality=1](readme_img/q1.png)
