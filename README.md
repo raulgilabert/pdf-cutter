@@ -13,7 +13,7 @@ To this:
 
 ## Usage
 
-`python3 main.py file1.pdf [file2.pdf ...]`
+`python3 main.py file1.pdf [file2.pdf ...] [-q]`
 
 This program allows you to convert more than one pdf file at execution. The
 result pdfs are stored on the folder `result/` with the same name than the
@@ -21,6 +21,15 @@ original file. All the images used in the conversion are stored at the folder
 `images/` and this folder and all its content is deleted at the end of the
 execution.
 
+## Quality option
+The '-q / --quality' argument allows you to increase the resolution of the
+output, by default is 1. Its range goes from 1 to 3.
+### quality  = 1 | original_size * 1.2
+![quality=1](readme_img/q1.png)
+### quality = 2 | original_size * 3.2
+![quality=2](readme_img/q2.png)
+### quality = 3 | original_size * 5.6
+![quality=3](readme_img/q3.png)
 
 ## Requirements
 

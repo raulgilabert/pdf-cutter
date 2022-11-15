@@ -1,8 +1,7 @@
 from pdf2image import convert_from_path
 import img2pdf
 import os
-import sys
-
+import argparse
 
 def detect_borders(image):
     width, _ = image.size
@@ -54,9 +53,9 @@ def detect_borders(image):
 
 
 
-def convert_file(filename):
+def convert_file(filename, quality):
     print("Working with file: " + filename)
-    images = convert_from_path(filename)
+    images = convert_from_path(filename, 200 * quality)
 
     filename_path_data = filename.split("/")
     filename = filename_path_data[len(filename_path_data) - 1]
@@ -111,8 +110,20 @@ if __name__ == "__main__":
 
     os.mkdir("images")
 
-    for file in sys.argv[1::]:
-        convert_file(file)
+    parser = argparse.ArgumentParser(prog='pdf_cutter', usage='%(prog)s [options] file1.pdf [file2.pdf ...]',
+                                            description='Crops wrong exported pdf slides into one page each')
+
+    parser.add_argument('Files', metavar='files', nargs='+', type=str, 
+                        help='the names of the files you want to fix')
+    parser.add_argument('-q', '--quality', type=int,  choices=range(1,4),
+                        required=False, default=1, help='select the quality of the output')
+    args = parser.parse_args()
+
+
+    files = args.Files
+    quality = args.quality
+    for file in files:
+        convert_file(file, quality)
 
     os.system("rm -rf images/")
 
