@@ -3,6 +3,15 @@ import img2pdf
 import os
 import argparse
 
+try:
+    from importlib.metadata import version, metadata
+    __version__ = version("pdf-cutter")
+    __description__ = metadata("pdf-cutter")["Summary"]
+except:
+    __version__ = "UNKNOWN"
+    __description__ = "UNKNOWN"
+
+
 def detect_borders(image):
     width, _ = image.size
     # left, right, top, bottom
@@ -100,8 +109,7 @@ def convert_file(filename, quality):
     print("Ended with file: " + filename)
     print("------------------------")
 
-
-if __name__ == "__main__":
+def main():
     if os.path.exists("images"):
         os.system("rm -rf images")
 
@@ -110,9 +118,11 @@ if __name__ == "__main__":
 
     os.mkdir("images")
 
-    parser = argparse.ArgumentParser(prog='pdf_cutter', usage='%(prog)s [options] file1.pdf [file2.pdf ...]',
-                                            description='Crops wrong exported pdf slides into one page each')
+    parser = argparse.ArgumentParser(
+        description=__description__
+    )
 
+    parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
     parser.add_argument('Files', metavar='files', nargs='+', type=str, 
                         help='the names of the files you want to fix')
     parser.add_argument('-q', '--quality', type=int,  choices=range(1,4),
@@ -126,4 +136,3 @@ if __name__ == "__main__":
         convert_file(file, quality)
 
     os.system("rm -rf images/")
-
