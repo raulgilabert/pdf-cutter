@@ -13,7 +13,7 @@ To this:
 
 ## Usage
 
-`python3 main.py file1.pdf [file2.pdf ...] [-q]`
+`python3 main.py file1.pdf [file2.pdf ...] [-q N]`
 
 This program allows you to convert more than one pdf file at execution. The
 result pdfs are stored on the folder `result/` with the same name than the
@@ -21,7 +21,7 @@ original file. All the images used in the conversion are stored at the folder
 `images/` and this folder and all its content is deleted at the end of the
 execution.
 
-## Quality option
+### Quality option
 The `-q / --quality` argument allows you to increase the resolution of the
 output, by default is 1. Its range goes from 1 to 3.
 ### quality  = 1 | original_size * 1.2
@@ -30,6 +30,10 @@ output, by default is 1. Its range goes from 1 to 3.
 ![quality=2](readme_img/q2.png)
 ### quality = 3 | original_size * 5.6
 ![quality=3](readme_img/q3.png)
+
+/!\\ Attention: In some cases the lowest quality can generate problems with
+the detection of the borders when having images on the corners of the slide.
+This can be resolved increasing the quality of the images.
 
 ## Requirements
 
