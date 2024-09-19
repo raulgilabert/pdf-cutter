@@ -3,19 +3,23 @@ import img2pdf
 import os
 import argparse
 
-def detect_borders(image):
+def detect_borders(image, slides):
     width, _ = image.size
     # left, right, top, bottom
-    borders = [[0, 0, 0, 0], [0, 0, 0, 0]]
+
+    borders = []
+
+    for i in range(0, slides):
+        borders.append([0, 0, 0, 0])
 
     num = 0
     pos = 0
 
-    while (num < 6):
+    while (num < 3*slides):
         x = pos%width
         y = int(pos/width)
         
-        if num == 2 or num == 5:
+        if num%3 == 2:
             while image.getpixel((x, y)) == (0, 0, 0):
                 x = pos%width
                 y = int(pos/width)
@@ -25,7 +29,7 @@ def detect_borders(image):
             borders[int(num/3)][3] = y
             num += 1
 
-        if num == 1 or num == 4:
+        if num%3 == 1:
             while image.getpixel((x, y)) == (0, 0, 0):
                 x = pos%width
                 y = int(pos/width)
@@ -38,7 +42,7 @@ def detect_borders(image):
             pos -= 3
             num += 1
 
-        if num == 0 or num == 3:
+        if num%3 == 0:
             if image.getpixel((x, y)) == (0, 0, 0):
                 num += 1
                 borders[int(num/3)][0] = x
@@ -53,7 +57,7 @@ def detect_borders(image):
 
 
 
-def convert_file(filename, quality):
+def convert_file(filename, quality, slides):
     print("Working with file: " + filename)
     images = convert_from_path(filename, 200 * quality)
 
@@ -68,7 +72,7 @@ def convert_file(filename, quality):
     os.mkdir(path_img)
 
     print("Getting borders of slides...")
-    borders = detect_borders(images[0])
+    borders = detect_borders(images[0], slides)
 
     print(borders)
 
@@ -78,19 +82,12 @@ def convert_file(filename, quality):
     for i in range(len(images)):
         images[i].save(path_img + "/img_first_" + str(i) + ".jpg", "JPEG")
 
-        image_up = images[i]
 
-        image_down = image_up.copy()
-
-        image_up_name = path_img + "/img_" + str(i*2) + ".jpg"
-        image_files.append(image_up_name)
-        image_up.crop((borders[0][0], borders[0][2], borders[0][1],
-                       borders[0][3])).save(image_up_name, "JPEG")
-
-        image_down_name = path_img + "/img_" + str(i*2 + 1) + ".jpg"
-        image_files.append(image_down_name)
-        image_down.crop((borders[1][0], borders[1][2], borders[1][1],
-                       borders[1][3])).save(image_down_name, "JPEG")
+        for j in range(0, slides):
+            image = images[i].copy()
+            image_name = path_img + "/img_" + str(i*slides + j) + ".jpg"
+            image_files.append(image_name)
+            image.crop((borders[j][0], borders[j][2], borders[j][1], borders[j][3])).save(image_name, "JPEG")
 
     print("Saving pdf...")
     with open("result/" + filename, "wb") as f:
@@ -117,13 +114,17 @@ if __name__ == "__main__":
                         help='the names of the files you want to fix')
     parser.add_argument('-q', '--quality', type=int,  choices=range(1,4),
                         required=False, default=1, help='select the quality of the output')
-    args = parser.parse_args()
+    parser.add_argument('-s', '--slides', type=int,  choices=range(1,10),
+                        required=False, default=2, help='select the slides per page of the input')
 
+
+    args = parser.parse_args()
 
     files = args.Files
     quality = args.quality
+    slides = args.slides
     for file in files:
-        convert_file(file, quality)
+        convert_file(file, quality, slides)
 
     os.system("rm -rf images/")
 
