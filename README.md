@@ -11,9 +11,16 @@ This program converts pdf like this:
 To this:
 ![pdf with one slide for page](./readme_img/2022-10-20-162345_1857x989_scrot.png)
 
+## Installation
+
+With the project cloned in a local directory:
+```sh
+pip install .  
+```
+
 ## Usage
 
-`python3 main.py file1.pdf [file2.pdf ...] [-q N]`
+`pdf-cutter file1.pdf [file2.pdf ...] [-q N]`
 
 This program allows you to convert more than one pdf file at execution. The
 result pdfs are stored on the folder `result/` with the same name than the
