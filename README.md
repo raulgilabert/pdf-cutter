@@ -1,7 +1,5 @@
 # pdf-cutter
 
-/!\\ Attention: this program only works (by now) on Unix-based OS.
-
 Pdf file cutter for slides where 2 pages are in one of the file
 
 This program converts pdf like this:
