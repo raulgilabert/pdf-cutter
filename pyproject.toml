@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "pdf-cutter"
 dynamic = ["version"]
 dependencies = [
-  "pdf2image == 1.16.0",
-  "img2pdf == 0.4.4"
+  "pdf2image >= 1.16.0",
+  "img2pdf >= 0.4.4"
 ]
 authors = [
   {name = "Raul Gilabert", email = "raulgilabert@proton.me"}
