@@ -1,6 +1,7 @@
 from pdf2image import convert_from_path
 import img2pdf
-import os
+import pathlib
+import shutil
 import argparse
 
 try:
@@ -69,12 +70,12 @@ def convert_file(filename, quality):
     filename_path_data = filename.split("/")
     filename = filename_path_data[len(filename_path_data) - 1]
 
-    path_img = "images/" + filename
+    path_img = pathlib.Path(f"images/{filename}")
 
-    if os.path.exists(path_img):
-        os.system("rm -rf " + path_img)
+    if path_img.exists():
+        shutil.rmtree(path_img)
 
-    os.mkdir(path_img)
+    path_img.mkdir()
 
     print("Getting borders of slides...")
     borders = detect_borders(images[0])
@@ -110,13 +111,15 @@ def convert_file(filename, quality):
     print("------------------------")
 
 def main():
-    if os.path.exists("images"):
-        os.system("rm -rf images")
+    path_imgs = pathlib.Path("images")
+    if path_imgs.exists():
+        shutil.rmtree(path_imgs)
 
-    if not os.path.exists("result"):
-        os.mkdir("result")
+    path_result = pathlib.Path("result")
+    if not path_result.exists():
+        path_result.mkdir()
 
-    os.mkdir("images")
+    path_imgs.mkdir()
 
     parser = argparse.ArgumentParser(
         description=__description__
@@ -135,4 +138,4 @@ def main():
     for file in files:
         convert_file(file, quality)
 
-    os.system("rm -rf images/")
+    shutil.rmtree(path_imgs)
